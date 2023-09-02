@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)https://botim.me/home/ -->
+<html lang="en" dir="ltr" style="font-size: 100px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>BOTIM - Free, Secure &amp; Reliable Messages and Calls</title>
+  <script type="text/javascript" async="" src="./la_files/analytics.js.download"></script><script>window.$PATH = 'home';</script>
+  <script>
+var docEl = document.documentElement,
+  resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+  recalc = function () {
+      var clientWidth = docEl.clientWidth;
+      if (!clientWidth) return;
+      if(clientWidth>=640){
+          docEl.style.fontSize = '100px';
+      }else{
+          docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+      }
+  };
+window.addEventListener(resizeEvt, recalc, false);
+window.addEventListener('DOMContentLoaded', recalc);
+</script>
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="./la_files/bootstrap-grid.min.css">
+<link rel="shortcut icon" href="https://botim.me/static/favicon.ico" type="image/x-icon">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="BOTIM">
+<meta property="og:description" content="Free HD video and voice calls">
+<meta property="og:image" content="https://cdn-web-sg.botim.me/static/logo200.jpg?time=1690812056056">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="200">
+
+
+<script>
+window.$LANG = 'en';
+function toggle_menu() {
+  var elm = window.document.getElementById('drawer');
+  if (elm.style.right === '0px') {
+    elm.style.right = null;
+
+    var drawerLang = document.getElementById('drawer-lang-picker');
+    var drawerLangSelectBg = document.getElementById('drawer-lang-picker-bg');
+    drawerLang.style.display = 'none';
+    drawerLangSelectBg.style.display = 'none';
+
+  } else {
+    elm.style.right = 0;
+    window.location.hash = "#";
+  }
+}
+function toggle_drawer_menu() {
+  var elm = document.getElementById('drawer-lang-picker');
+  var drawerLangSelectBg = document.getElementById('drawer-lang-picker-bg');
+  var css = elm.getAttribute("class");
+
+  if (css.indexOf('show') !== -1) {
+    // elm.style.display = 'none';
+    drawerLangSelectBg.style.display = 'none';
+    let newCss = css.replace("show", "");
+    newCss = newCss.replace("hidden", "");
+    newCss = newCss.concat("  hidden");
+
+    elm.setAttribute("class", newCss);
+  } else {
+    // elm.style.display = 'block';
+    drawerLangSelectBg.style.display = 'block';
+    let newCss = css.replace("hidden", "");
+    newCss = newCss.replace("show", "");
+    newCss = newCss.concat("  show");
+    elm.setAttribute("class", newCss);
+  }
+}
+function toggle_lang() {
+  var elm = document.getElementById('lang-picker');
+  var langSelectBg = document.getElementById('lang-picker-bg');
+  var headLang = document.getElementById('header-lang');
+  var css = headLang.getAttribute("class");
+  // console.log('====css', css)
+  if (elm.style.display === 'block') {
+    elm.style.display = 'none';
+    langSelectBg.style.display = 'none';
+    let newCss = css.replace("lang__active", "");
+    headLang.setAttribute("class", newCss);
+  } else {
+    elm.style.display = 'block';
+    langSelectBg.style.display = 'block';
+    let newCss = css.concat("  lang__active");
+    headLang.setAttribute("class", newCss);
+  }
+}
+function redirectLang(lang) {
+  window.location.href = window.location.href.replace('/' + window.$LANG + '/', '/').replace(location.host, location.host + '/' + lang);
+}
+// var docEl = document.documentElement,
+//     resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+//     recalc = function () {
+//         var clientWidth = docEl.clientWidth;
+//         if (!clientWidth) return;
+//         if(clientWidth>=640){
+//             docEl.style.fontSize = '100px';
+//         }else{
+//             docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+//         }
+//     };
+// window.addEventListener(resizeEvt, recalc, false);
+window.addEventListener('DOMContentLoaded', function () {
+  // recalc();
+  var selectedLangSelectOption = document.querySelector('.drawer__lang-select option[value=' + window.$LANG + ']');
+  if (selectedLangSelectOption) {
+    selectedLangSelectOption.setAttribute('selected', 'selected');
+  }
+  // pick language
+  var langPicker = document.getElementById('lang-picker');
+  langPicker && langPicker.addEventListener('click', function (e) {
+    if (e && e.target && e.target.dataset.value) {
+      redirectLang(e.target.dataset.value);
+    }
+  });
+
+  // pick language
+  var drawerLangPicker = document.getElementById('drawer-lang-picker');
+  drawerLangPicker && drawerLangPicker.addEventListener('click', function (e) {
+    if (e && e.target && e.target.dataset.value) {
+      redirectLang(e.target.dataset.value);
+    }
+  });
+
+  var drawerLangSelectBg = document.getElementById('drawer-lang-picker-bg');
+  drawerLangSelectBg && drawerLangSelectBg.addEventListener('click', function (e) {
+    toggle_drawer_menu();
+  });
+  // select language
+  // var langSelect = document.getElementById('drawer-lang-select');
+  // langSelect && langSelect.addEventListener('change', function (e) {
+  //   redirectLang(e.target.value);
+  // });
+
+  var langSelectBg = document.getElementById('lang-picker-bg');
+  langSelectBg && langSelectBg.addEventListener('click', function (e) {
+    toggle_lang();
+  });
+});
+
+window.onload = function () {
+  var u = navigator.userAgent;
+  var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android
+  var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios
+  var home = document.getElementById('home');
+  console.log('=====', isAndroid, isiOS, window.location.pathname)
+  if (home)  {
+    if (isAndroid) {
+      home.setAttribute('class', 'isAndroid');
+    }
+    if (isiOS) {
+      home.setAttribute('class', 'isIOS');
+    }
+  }
+}
+
+</script>
+
+  <link rel="stylesheet" href="./la_files/index.css">
+  <link rel="stylesheet" href="./la_files/swiper.min.css">
+  <link rel="stylesheet" href="./la_files/homeswiper.min.css">
+
+</head>
+<body>
+  <header class="header">
+  <div class="header__inner">
+    <a class="header__logo" href="https://botim.me/home/"></a>
+
+    <ul class="header__nav">
+      
+      <li class="header__nav-item on">
+        <span class="dot"><span class="dot__item"></span></span>
+        <a href="https://botim.me/home/" class="header__nav-link">
+          Home</a>
+      </li>
+      
+      <li class="header__nav-item ">
+        <span class="dot"><span class="dot__item"></span></span>
+        <a href="https://botim.me/features/" class="header__nav-link">
+          Features</a>
+      </li>
+      
+      <li class="header__nav-item ">
+        <span class="dot"><span class="dot__item"></span></span>
+        <a href="https://botim.me/download/" class="header__nav-link">
+          Download</a>
+      </li>
+      
+      <li class="header__nav-item ">
+        <span class="dot"><span class="dot__item"></span></span>
+        <a href="https://web.botim.me/" class="header__nav-link">
+          BOTIM Web</a>
+      </li>
+      
+      <li class="header__nav-item ">
+        <span class="dot"><span class="dot__item"></span></span>
+        <a href="https://botim.me/become-our-partner/" class="header__nav-link">
+          Advertise with Us</a>
+      </li>
+      
+      <li class="header__nav-item header__lang  " id="header-lang" onclick="toggle_lang()">
+        <span id="lang-title">en</span>
+        <span class="header__lang__icon">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="lng-dropdown" x="0px" y="0px" width="30px" height="32px" viewBox="0 0 9 20" style="enable-background:new 0 0 9 20;" xml:space="preserve">
+          <polygon style="fill:#BFBFBF" points="1,9 4.5,12.5 8,9 "></polygon>
+          </svg>
+        </span>
+
+      </li>
+    </ul>
+
+    <div class="header__more-btn" onclick="toggle_menu()">
+      <svg version="1.1" id="icon-menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">
+        <path style="fill:rgba(0,0,0,.5)" d="M8,26h21v-1.8H8V26z M8,11v1.8h21V11H8z M8,19.2h21v-1.8H8V19.2z"></path>
+      </svg>
+    </div>
+
+    <div class="header__picker" id="lang-picker" style="display: none;">
+      <!-- <div class="header__picker-title">Select your language</div> -->
+      <ul class="clearfix">
+        <li class="header__picker-item check" data-value="en">English</li>
+        <li class="header__picker-item " data-value="ar">العربية</li>
+      </ul>
+    </div>
+    <div id="lang-picker-bg" class="header__picker-bg" style="display: none;"></div>
+    <nav class="drawer" id="drawer">
+  <div class="drawer__inner">
+    <div class="drawer__header">
+      <div class="drawer__close" onclick="toggle_menu()">
+        <!-- <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" width="20px" height="20px" viewBox="0 0 30 30" style="enable-background:new 0 0 30 30;"
+          xml:space="preserve">
+          <polygon style="stroke:rgba(0,0,0,0.5);stroke-width:2" points="26.7,11.6 25.4,10.3 18.5,17.2 11.6,10.3 10.3,11.6 17.2,18.5 10.3,25.4 11.6,26.7 18.5,19.8
+            25.4,26.7 26.7,25.4 19.8,18.5 "></polygon>
+        </svg> -->
+      </div>
+
+      <div class="drawer__icon"></div>
+    </div>
+
+    <ul class="drawer__menu">
+      
+      <li><a href="https://botim.me/home/" class="drawer__menu-item on">
+        <span class="dot"><span class="dot__item"></span></span>
+        <span class="drawer__menu-link">
+          Home</span>
+        </a></li>
+      
+      <li><a href="https://botim.me/features/" class="drawer__menu-item ">
+        <span class="dot"><span class="dot__item"></span></span>
+        <span class="drawer__menu-link">
+          Features</span>
+        </a></li>
+      
+      <li><a href="https://botim.me/download/" class="drawer__menu-item ">
+        <span class="dot"><span class="dot__item"></span></span>
+        <span class="drawer__menu-link">
+          Download</span>
+        </a></li>
+      
+      <li><a href="https://web.botim.me/" class="drawer__menu-item ">
+        <span class="dot"><span class="dot__item"></span></span>
+        <span class="drawer__menu-link">
+          BOTIM Web</span>
+        </a></li>
+      
+      <li><a href="https://botim.me/become-our-partner/" class="drawer__menu-item ">
+        <span class="dot"><span class="dot__item"></span></span>
+        <span class="drawer__menu-link">
+          Advertise with Us</span>
+        </a></li>
+      
+      <!-- <li class="drawer__menu-item drawer__lang" id="drawer-lang" onclick="toggle_drawer_menu()">
+        <div class="drawer__lang__title">
+          <b>language</b>
+          <span id="drawer-lang-title">English</span>
+        </div>
+        <span class="drawer__lang__icon"></span>
+      </li> -->
+    </ul>
+    <div class="drawer__menu-item drawer__lang" id="drawer-lang" onclick="toggle_drawer_menu()">
+      <div class="drawer__lang__title">
+        <b>language</b>
+        <span id="drawer-lang-title">English</span>
+      </div>
+      <span class="drawer__lang__icon"></span>
+    </div>
+
+    <div class="drawer__picker hidden" id="drawer-lang-picker">
+      <!-- <div class="header__picker-title">Select your language</div> -->
+      <ul class="clearfix">
+        <li class="drawer__picker-item check" data-value="en">English</li>
+        <li class="drawer__picker-item " data-value="ar">العربية</li>
+      </ul>
+    </div>
+    <div id="drawer-lang-picker-bg" class="drawer__picker__bg"></div>
+  </div>
+</nav>
+
+  </div>
+</header>
+
+
+  <div id="home">
+    <div class="section landing container">
+      <!-- <div class="row"> -->
+        <div class="landing__inner">
+          <div class="landing__item">
+            <div class="landing__pic clearfix">
+              <img src="./la_files/home_landing2.min.png" alt="">
+              <!-- <div class="landing__pic__1"></div>
+              <div class="landing__pic__2"></div> -->
+            </div>
+          </div>
+          <div class="landing__item landing__content">
+            <div>
+              <h1 class="landing__title">
+                <p>Free, Secure &amp; Reliable Messages and Calls</p>
+              </h1>
+              <div class="landing__desc">
+                <p>Bring your family &amp; friends closer than ever. Unlimited worldwide calling &amp; messaging app for everyone.</p>
+              </div>
+              <div class="landing__notice">* Data charges may apply. Contact your provider for details</div>
+              <ul>
+                
+                  <li class="landing__link-item">
+                    <a class="landing__link" target="_blank" href="https://play.google.com/store/apps/details?id=im.thebot.messenger">
+                      <i class="iconfont icon-android"></i><i class="android-icon min-show"></i> <span>BOTIM for Android</span>
+                    </a>
+                  </li>
+                
+                  <li class="landing__link-item">
+                    <a class="landing__link" target="_blank" href="https://itunes.apple.com/app/botim-video-calls-and-chat/id1263036818?mt=8">
+                      <i class="iconfont icon-apple"></i><i class=" min-show"></i> <span>BOTIM for iPhone</span>
+                    </a>
+                  </li>
+                
+                  <li class="landing__link-item">
+                    <a class="landing__link" target="_blank" href="https://botim.me/download">
+                      <i class="iconfont icon-mac"></i><i class=" min-show"></i> <span>BOTIM for Mac/PC</span>
+                    </a>
+                  </li>
+                
+                  <li class="landing__link-item">
+                    <a class="landing__link" href="https://cdn-www-sg.botim.me/downloads/bot.v350.apk">
+                      <i class="iconfont icon-android"></i><i class="android-icon min-show"></i> <span>Download APK</span>
+                    </a>
+                  </li>
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
+    </div>
+
+    <div class="section info">
+
+      <div class="swiper-container d-md-none swiper-container-horizontal">
+        <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(2128.5px, 0px, 0px);"><div class="swiper-slide swiper-slide-duplicate swiper-slide-next" data-swiper-slide-index="0" style="transition-duration: 0ms;">
+            <div class="swiper-slide-item">
+              <div class="swiper-slide-card info__inner__chatcall info__inner__call_swiper">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                    <span>Unlimited Chats &amp; Voice/Video Calls</span>
+                    
+                  </dt>
+                  <dd>Message your family and friends freely and securely.</dd>
+                  
+                  <dd>&nbsp;</dd>
+                  <dd>Make hassle-free high quality private and group voice and video calls.</dd>
+                  
+                </dl>
+              </div>
+            </div>
+          </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="1" style="transition-duration: 0ms;">
+            <div class="swiper-slide-item">
+              <div class="swiper-slide-card info__inner__payment info__inner__payment_swiper">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                      <i>&nbsp;</i>
+                    
+                    <span>Payments</span>
+                    
+                  </dt>
+                  <dd>Our payment platform enables you to top up your e-wallet, scan to pay online and offline, collect money, withdraw, transfer to mobile &amp; bank accounts locally and internationally, and manage latest transactions. </dd>
+                  
+                </dl>
+              </div>
+            </div>
+          </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="2" style="transition-duration: 0ms;">
+            <div class="swiper-slide-item">
+              <div class="swiper-slide-card info__inner__offers">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                    <span>Offers</span>
+                    
+                  </dt>
+                  <dd>Enjoy Buy 1 Get 1 Free offers across restaurants, SPAs and save with instant online discounts at your favourite merchants with no subscription fee.</dd>
+                  
+                </dl>
+              </div>
+            </div>
+          </div>
+          
+          <div class="swiper-slide swiper-slide-duplicate-next" data-swiper-slide-index="0" style="transition-duration: 0ms;">
+            <div class="swiper-slide-item">
+              <div class="swiper-slide-card info__inner__chatcall info__inner__call_swiper">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                    <span>Unlimited Chats &amp; Voice/Video Calls</span>
+                    
+                  </dt>
+                  <dd>Message your family and friends freely and securely.</dd>
+                  
+                  <dd>&nbsp;</dd>
+                  <dd>Make hassle-free high quality private and group voice and video calls.</dd>
+                  
+                </dl>
+              </div>
+            </div>
+          </div>
+          
+          <div class="swiper-slide swiper-slide-duplicate-prev" data-swiper-slide-index="1" style="transition-duration: 0ms;">
+            <div class="swiper-slide-item">
+              <div class="swiper-slide-card info__inner__payment info__inner__payment_swiper">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                      <i>&nbsp;</i>
+                    
+                    <span>Payments</span>
+                    
+                  </dt>
+                  <dd>Our payment platform enables you to top up your e-wallet, scan to pay online and offline, collect money, withdraw, transfer to mobile &amp; bank accounts locally and internationally, and manage latest transactions. </dd>
+                  
+                </dl>
+              </div>
+            </div>
+          </div>
+          
+          <div class="swiper-slide swiper-slide-duplicate-active" data-swiper-slide-index="2" style="transition-duration: 0ms;">
+            <div class="swiper-slide-item">
+              <div class="swiper-slide-card info__inner__offers">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                    <span>Offers</span>
+                    
+                  </dt>
+                  <dd>Enjoy Buy 1 Get 1 Free offers across restaurants, SPAs and save with instant online discounts at your favourite merchants with no subscription fee.</dd>
+                  
+                </dl>
+              </div>
+            </div>
+          </div>
+          
+        <div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="0" style="transition-duration: 0ms;">
+            <div class="swiper-slide-item">
+              <div class="swiper-slide-card info__inner__chatcall info__inner__call_swiper">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                    <span>Unlimited Chats &amp; Voice/Video Calls</span>
+                    
+                  </dt>
+                  <dd>Message your family and friends freely and securely.</dd>
+                  
+                  <dd>&nbsp;</dd>
+                  <dd>Make hassle-free high quality private and group voice and video calls.</dd>
+                  
+                </dl>
+              </div>
+            </div>
+          </div><div class="swiper-slide swiper-slide-duplicate swiper-slide-prev" data-swiper-slide-index="1" style="transition-duration: 0ms;">
+            <div class="swiper-slide-item">
+              <div class="swiper-slide-card info__inner__payment info__inner__payment_swiper">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                      <i>&nbsp;</i>
+                    
+                    <span>Payments</span>
+                    
+                  </dt>
+                  <dd>Our payment platform enables you to top up your e-wallet, scan to pay online and offline, collect money, withdraw, transfer to mobile &amp; bank accounts locally and internationally, and manage latest transactions. </dd>
+                  
+                </dl>
+              </div>
+            </div>
+          </div><div class="swiper-slide swiper-slide-duplicate swiper-slide-active" data-swiper-slide-index="2" style="transition-duration: 0ms;">
+            <div class="swiper-slide-item">
+              <div class="swiper-slide-card info__inner__offers">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                    <span>Offers</span>
+                    
+                  </dt>
+                  <dd>Enjoy Buy 1 Get 1 Free offers across restaurants, SPAs and save with instant online discounts at your favourite merchants with no subscription fee.</dd>
+                  
+                </dl>
+              </div>
+            </div>
+          </div></div>
+      </div>
+      <div class="swiper-pagination d-md-none swiper-pagination-clickable swiper-pagination-bullets" id="pagination"><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span></div>
+
+      <div class="container info-container d-none d-md-block">
+        <div class="row info__row">
+          
+            <div class="col-md-4 info__inner">
+              <div class="card info__inner__chatcall">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                    <span>Unlimited Chats &amp; Voice/Video Calls</span>
+                    
+                  </dt>
+                  <dd>Message your family and friends freely and securely.</dd>
+                  
+                  <dd>&nbsp;</dd>
+                  <dd>Make hassle-free high quality private and group voice and video calls.</dd>
+                  
+                </dl>
+              </div>
+            </div>
+          
+            <div class="col-md-4 info__inner">
+              <div class="card info__inner__payment">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                      <i>&nbsp;</i>
+                    
+                    <span>Payments</span>
+                    
+                  </dt>
+                  <dd>Our payment platform enables you to top up your e-wallet, scan to pay online and offline, collect money, withdraw, transfer to mobile &amp; bank accounts locally and internationally, and manage latest transactions. </dd>
+                  
+                </dl>
+              </div>
+            </div>
+          
+            <div class="col-md-4 info__inner">
+              <div class="card info__inner__offers">
+                <dl class="info__inner__content">
+                  <dt class="info__inner__content__title">
+                    
+                    <span>Offers</span>
+                    
+                  </dt>
+                  <dd>Enjoy Buy 1 Get 1 Free offers across restaurants, SPAs and save with instant online discounts at your favourite merchants with no subscription fee.</dd>
+                  
+                </dl>
+              </div>
+            </div>
+          
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section explore">
+      <a href="https://botim.me/features/" class="explore__btn">Explore More Features<span></span></a>
+    </div>
+  </div>
+
+  <footer class="footer">
+  <div class="footer__primary container">
+    <div class="row footer__row">
+      
+      <div class="footer__section col-md-3 col-sm-6 col-6">
+        <h4 class="footer__title">botim</h4>
+        <ul>
+          
+          <li class="footer__item">
+            <a href="https://botim.me/features/" class="footer__link">Features</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://botim.me/download" class="footer__link">Download</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://web.botim.me/" class="footer__link">BOTIM Web</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://botim.me/become-our-partner/" class="footer__link">Advertise with Us</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://botim.me/faq" class="footer__link">FAQ</a>
+          </li>
+          
+        </ul>
+      </div>
+      
+      <div class="footer__section col-md-3 col-sm-6 col-6">
+        <h4 class="footer__title">Download</h4>
+        <ul>
+          
+          <li class="footer__item">
+            <a href="https://play.google.com/store/apps/details?id=im.thebot.messenger" target="_blank" class="footer__link">Android</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://itunes.apple.com/app/botim-video-calls-and-chat/id1263036818?mt=8" target="_blank" class="footer__link">iPhone</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://cdn-web-sg.botim.me/downloads/desktop/windows/1.6.6/Botim_Setup_1.6.6.exe" class="footer__link">Windows</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://cdn-web-sg.botim.me/downloads/desktop/linux/1.6.6/Botim-1.6.6.AppImage" class="footer__link">Linux</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://cdn-web-sg.botim.me/downloads/desktop/mac/1.6.6/Botim-1.6.6.dmg" class="footer__link">Mac</a>
+          </li>
+          
+        </ul>
+      </div>
+      
+      <div class="footer__section col-md-3 col-sm-6 col-6">
+        <h4 class="footer__title">company</h4>
+        <ul>
+          
+          <li class="footer__item">
+            <a href="https://botim.me/about" class="footer__link">About</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://botim.me/privacy/" class="footer__link">Policy</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://botim.me/career" class="footer__link">Careers</a>
+          </li>
+          
+          <li class="footer__item">
+            <a href="https://botim.me/contactus" class="footer__link">Contact us</a>
+          </li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+  <div class="footer__secondary">
+    <div class="container d-none d-md-block">
+      <div class="row">
+          <div class="col-md-3 col-sm-12 footer__secondary-item" dir="auto">2023 © BOTIM</div>
+          <div class="col-md-3 col-sm-6 link_privacy footer__secondary-item">
+            <a href="https://botim.me/privacy/" class="footer__link">Privacy Policy</a>
+          </div>
+          <div class="col-md-3 col-sm-6 footer__secondary-item">
+            <a href="https://botim.me/terms/" class="footer__link">Terms of Service</a>
+          </div>
+      </div>
+    </div>
+
+    <div class="container d-md-none">
+      <div class="row">
+        <div class="col-sm-6 footer__secondary-item">
+          <a href="https://botim.me/terms/" class="footer__link">Terms of Service</a>
+        </div>
+        <div class="col-sm-6 footer__secondary-item link_privacy">
+          <a href="https://botim.me/privacy/" class="footer__link">Privacy Policy</a>
+        </div>
+        <div class="footer__secondary-item footer__secondary-item-full" dir="auto">2023 © BOTIM</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async="" src="./la_files/js"></script>
+  <script>
+    var ishttps = 'https:' == window.location.protocol;
+    if (!ishttps && window.location.hostname != 'localhost') {
+        window.location.href = "https://" + window.location.hostname + window.location.pathname;
+    }
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-128355452-1');
+  </script>
+
+<style type="text/css">
+.robot-wrap {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  font-size: 12px;
+  z-index: 99999;
+  /* bottom: 25px;
+  right: 5px; */
+  right: 0;
+  bottom: 0;
+}
+.robot-wrap .close-btn {
+  position: absolute;
+  top: -34px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  padding: 2px 0;
+  cursor: pointer;
+  text-align: center;
+}
+.close-btn img {
+  width: 30px;
+}
+#iframe_tag {
+  height: 540px;
+  width: 420px;
+}
+.robot-wrap .iframe-block {
+  margin-right: 48px;
+  position: relative;
+}
+.robot-wrap .icons-avt img {
+  width: 62px;
+  height: 62px;
+  margin-right: 20px;
+  margin-bottom: 40px;
+  float: right;
+  cursor: pointer;
+}
+@media (max-width: 500px) {
+  .robot-wrap .iframe-block {
+    margin-right: 5px;
+  }
+}
+@media (max-width: 768px) {
+  #iframe_tag {
+    width: 365px;
+  }
+}
+
+/* .popupIcon {
+  background: blue;
+}
+.popupIcon2 {
+  background: red;
+} */
+</style>
+<script src="./la_files/jquery.min.js.download"></script>
+<div class="robot-wrap">
+  <div id="iframe_block" class="iframe-block" style="display: none;">
+      <span id="closeBtn" class="close-btn"><img src="./la_files/close-one.svg"></span>
+      <div id="iframe">
+        <!-- <iframe id="iframe_tag" src='https://iagent.botim.me/botim/index.html' name="iframe_a"></iframe> -->
+        <iframe id="iframe_tag" src="./la_files/saved_resource.html" name="iframe_a"></iframe>
+      </div>
+  </div>
+  <div class="icons-avt">
+    <!-- <div id="popupIcon2" class="popupIcon2"></div>
+    <div id="popupIcon" class="popupIcon"></div> -->
+    <img style="display: none;" id="popupIcon2" src="./la_files/robot-avatar.svg">
+    <img style="" id="popupIcon" src="./la_files/robot-avatar.svg">
+  </div>
+</div>
+
+<script>
+  window.onload = function(){
+    console.log('robot window onload')
+    $("#popupIcon").fadeIn(600, function(){
+      $("#cloud").fadeIn(500);
+    });
+    $("#popupIcon").click(function(){
+      // $("#popupIcon").hide();
+      // setTimeout(() => {
+      if (!$('#iframe_tag') || !$('#iframe_tag').attr("src")) {
+        $('#iframe_tag').attr("src", "https://iagent.botim.me/botim/index.html")
+        // $('#iframe').html('<iframe id="iframe_tag" src="https://iagent.botim.me/botim/index.html" name="iframe_a"></iframe>')
+      }
+      // }, 1000);
+
+      $("#iframe").fadeIn(500);
+      $(this).hide(400);
+      // $("#popupIcon").animate({bottom: -200 + "px"}, 100);
+      // $(this).fadeOut(900);
+      $("#cloud").hide(400);
+      $("#iframe").slideDown(500, function(){
+        $("#iframe_block").fadeIn(500);
+        $("#closeBtn").slideDown(200);
+      });
+    })
+    $("#popupIcon2").click(function(){
+      $("#iframe").fadeIn(500);
+      $("#popupIcon").animate({bottom: -200 + "px"}, 500);
+      $(this).hide(400);
+      $("#cloud").hide(400);
+      $("#iframe").slideDown(500, function(){
+          $("#iframe_block").fadeIn(500);
+          $("#closeBtn").slideDown(200);
+      });
+    })
+    $("#closeBtn").click(function(){
+        $(this).hide(10, function(){
+          $('#iframe').fadeOut(500);
+          $("#iframe_block").fadeOut(500);
+          $('#popupIcon2').show(400, function() {
+              $("#popupIcon2").animate({bottom: 10 + "px"}, 800);
+              $("#closeBtn").fadeOut(300);
+              $("#cloud").fadeIn(1200);
+
+          });
+        });
+    })
+}
+</script>
+
+
+
+  <script src="./la_files/swiper.min.js.download"></script>
+  <script src="./la_files/homeswiper.min.js.download"></script>
+
+
+</body></html>
